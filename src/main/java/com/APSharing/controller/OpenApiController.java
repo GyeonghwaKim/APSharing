@@ -1,11 +1,14 @@
 package com.APSharing.controller;
 
-import com.APSharing.entity.Apod;
-import com.APSharing.entity.FcstItems;
+import com.APSharing.vo.Apod;
+import com.APSharing.vo.DivisionsItems;
+import com.APSharing.vo.AstroEventItems;
 import com.APSharing.service.ForecastService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,10 +26,13 @@ import java.net.URL;
 public class OpenApiController {
 
     private final ForecastService service;
-    @Value("${AstroEventInfoKey}")
-    private String astroEventInfoKey;
+    @Value("${OpenApiKey}")
+    private String openApiKey;
     @Value("${AstroEventInfoUrl}")
     private String astroEventInfoUrl;
+
+    @Value("${DivisionsInfo24Url}")
+    private String divisionsInfo24;
 
     @Value("${NasaKey}")
     private String nasaKey;
@@ -34,45 +40,52 @@ public class OpenApiController {
     @Value("${NasaApodUrl}")
     private String nasaApodUrl;
 
-    @GetMapping("/forecast")
+    @GetMapping("/astroEventInfo")
     public String callForecastApi(Model model){
-        HttpURLConnection urlConnection = null;
-        InputStream stream = null;
-        String result = null;
 
         String urlStr = astroEventInfoUrl +
-                "serviceKey=" + astroEventInfoKey +
+                "serviceKey=" + openApiKey +
                 "&solYear=2023&solMonth=05&_type=json";
-        try {
-            URL url = new URL(urlStr);
 
-            urlConnection = (HttpURLConnection) url.openConnection();
-            stream = getNetworkConnection(urlConnection);
-            result = readStreamToString(stream);
+        String result = getJson(urlStr);
 
-            if (stream != null) stream.close();
-        } catch(IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (urlConnection != null) {
-                urlConnection.disconnect();
-            }
-        }
-
-        FcstItems response = service.parseJson(result,FcstItems.class);
-        model.addAttribute("items",response.getFcstItems());
+        AstroEventItems response = service.parseJson(result, AstroEventItems.class);
+        model.addAttribute("astroEventInfo",response.getAstroEventItems());
         return "main";
     }
+
+
 
     @GetMapping("/nasaApod")
     public String callNasaApodApi(Model model){
 
+
+        String urlStr = nasaApodUrl +
+                "api_key=" + nasaKey;
+
+        String result = getJson(urlStr);
+
+        Apod response=this.service.parseJson(result, Apod.class);
+        model.addAttribute("nasaApod",response);
+
+        return "main";
+
+    }
+
+
+
+    @GetMapping("/divisionsInfo24")
+    public String callAnniversaryInfo(Model model){
+        String urlStr = divisionsInfo24 +
+                "&solYear=2023&solMonth=05&"+"serviceKey=" + openApiKey
+                +"&_type=json";
+
+
         HttpURLConnection urlConnection = null;
         InputStream stream = null;
         String result = null;
 
-        String urlStr = nasaApodUrl +
-                "api_key=" + nasaKey;
+
 
         try {
             URL url = new URL(urlStr);
@@ -90,17 +103,18 @@ public class OpenApiController {
             }
         }
 
-        Apod response=this.service.parseJson(result, Apod.class);
-        model.addAttribute("Apod",response);
+        DivisionsItems response=this.service.parseJson(result, DivisionsItems.class);
+        model.addAttribute("divisionsInfo24",response.getDivisionsItems());
 
 
-        return "main2";
-
+        return "main";
     }
 
+
+
     private InputStream getNetworkConnection(HttpURLConnection urlConnection) throws IOException {
-        urlConnection.setConnectTimeout(3000);
-        urlConnection.setReadTimeout(3000);
+        urlConnection.setConnectTimeout(5000);
+        urlConnection.setReadTimeout(5000);
         urlConnection.setRequestMethod("GET");
         urlConnection.setDoInput(true);
 
@@ -124,5 +138,29 @@ public class OpenApiController {
         br.close();
 
         return result.toString();
+    }
+
+    private String getJson(String urlStr) {
+        HttpURLConnection urlConnection = null;
+        InputStream stream = null;
+        String result = null;
+
+
+        try {
+            URL url = new URL(urlStr);
+
+            urlConnection = (HttpURLConnection) url.openConnection();
+            stream = getNetworkConnection(urlConnection);
+            result = readStreamToString(stream);
+
+            if (stream != null) stream.close();
+        } catch(IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (urlConnection != null) {
+                urlConnection.disconnect();
+            }
+        }
+        return result;
     }
 }

@@ -1,4 +1,4 @@
-package com.APSharing.entity;
+package com.APSharing.vo;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class FcstItem {
+public class AstroEventItem {
 
     //천문현상
     @JsonProperty("astroEvent")
@@ -23,13 +23,6 @@ public class FcstItem {
     @JsonProperty("locdate")
     private String locdate;
 
-    //순번
-    @JsonProperty("sec")
-    private int sec;
-
-    //비고
-    @JsonProperty("remakrs")
-    private String remkars;
 
 
 }

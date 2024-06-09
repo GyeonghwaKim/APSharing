@@ -1,12 +1,10 @@
-package com.APSharing.entity;
+package com.APSharing.vo;
 
-import com.APSharing.entity.deserializer.FcstItemDeserializer;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -15,17 +13,17 @@ import java.util.List;
 
 @Data
 @AllArgsConstructor
-public class FcstItems {
+public class AstroEventItems {
     @JsonProperty("item")
-    private List<FcstItem> fcstItems;
+    private List<AstroEventItem> astroEventItems;
 
     @JsonCreator
-    public FcstItems(@JsonProperty("response") JsonNode node) throws JsonProcessingException {
+    public AstroEventItems(@JsonProperty("response") JsonNode node) throws JsonProcessingException {
         ObjectMapper objectMapper=new ObjectMapper();
 
         JsonNode itemNode= node.findValue("item");
-        this.fcstItems= Arrays
-                .stream(objectMapper.treeToValue(itemNode, FcstItem[].class))
+        this.astroEventItems = Arrays
+                .stream(objectMapper.treeToValue(itemNode, AstroEventItem[].class))
                 .toList();
     }
 }

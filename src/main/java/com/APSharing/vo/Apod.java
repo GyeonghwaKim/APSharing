@@ -1,4 +1,4 @@
-package com.APSharing.entity;
+package com.APSharing.vo;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -15,18 +15,10 @@ public class Apod {
     @JsonProperty("explanation")
     private String explanation;
 
-    @JsonProperty("media_type")
-    private String media_type;
-
-    @JsonProperty("hdurl")
-    private String hdurl;
-
     @JsonProperty("url")
     private String url;
 
     @JsonProperty("title")
     private String title;
 
-    @JsonProperty("service_version")
-    private String service_version;
 }
