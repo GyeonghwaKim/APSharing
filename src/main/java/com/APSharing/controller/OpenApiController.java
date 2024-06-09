@@ -1,10 +1,11 @@
-package com.APSharing;
+package com.APSharing.controller;
 
+import com.APSharing.entity.Apod;
+import com.APSharing.entity.FcstItems;
+import com.APSharing.service.ForecastService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,11 +23,16 @@ import java.net.URL;
 public class OpenApiController {
 
     private final ForecastService service;
-    @Value("${open-AstroEventInfoKey}")
-    private String key;
-    @Value("${open-AstroEventInfoUrl}")
-    private String callBackUrl;
+    @Value("${AstroEventInfoKey}")
+    private String astroEventInfoKey;
+    @Value("${AstroEventInfoUrl}")
+    private String astroEventInfoUrl;
 
+    @Value("${NasaKey}")
+    private String nasaKey;
+
+    @Value("${NasaApodUrl}")
+    private String nasaApodUrl;
 
     @GetMapping("/forecast")
     public String callForecastApi(Model model){
@@ -34,10 +40,9 @@ public class OpenApiController {
         InputStream stream = null;
         String result = null;
 
-        String urlStr = callBackUrl +
-                "serviceKey=" + key +
+        String urlStr = astroEventInfoUrl +
+                "serviceKey=" + astroEventInfoKey +
                 "&solYear=2023&solMonth=05&_type=json";
-log.info("1");
         try {
             URL url = new URL(urlStr);
 
@@ -54,15 +59,45 @@ log.info("1");
             }
         }
 
-        FcstItems response = service.parsingJsonObject(result);
+        FcstItems response = service.parseJson(result,FcstItems.class);
         model.addAttribute("items",response.getFcstItems());
-//
-//        return new ResponseEntity<>(response, HttpStatus.OK);
-        log.info("2");
         return "main";
     }
 
-    /* URLConnection 을 전달받아 연결정보 설정 후 연결, 연결 후 수신한 InputStream 반환 */
+    @GetMapping("/nasaApod")
+    public String callNasaApodApi(Model model){
+
+        HttpURLConnection urlConnection = null;
+        InputStream stream = null;
+        String result = null;
+
+        String urlStr = nasaApodUrl +
+                "api_key=" + nasaKey;
+
+        try {
+            URL url = new URL(urlStr);
+
+            urlConnection = (HttpURLConnection) url.openConnection();
+            stream = getNetworkConnection(urlConnection);
+            result = readStreamToString(stream);
+
+            if (stream != null) stream.close();
+        } catch(IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (urlConnection != null) {
+                urlConnection.disconnect();
+            }
+        }
+
+        Apod response=this.service.parseJson(result, Apod.class);
+        model.addAttribute("Apod",response);
+
+
+        return "main2";
+
+    }
+
     private InputStream getNetworkConnection(HttpURLConnection urlConnection) throws IOException {
         urlConnection.setConnectTimeout(3000);
         urlConnection.setReadTimeout(3000);
@@ -76,7 +111,6 @@ log.info("1");
         return urlConnection.getInputStream();
     }
 
-    /* InputStream을 전달받아 문자열로 변환 후 반환 */
     private String readStreamToString(InputStream stream) throws IOException{
         StringBuilder result = new StringBuilder();
 

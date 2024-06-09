@@ -1,19 +1,22 @@
-package com.APSharing;
+package com.APSharing.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
 
+
 @Service
 public class ForecastService {
 
-    public FcstItems parsingJsonObject(String json) {
-        FcstItems items = null;
+    public <T> T parseJson(String json, Class<T> valueType) {
+        T object = null;
         try {
             ObjectMapper mapper = new ObjectMapper();
-            items = mapper.readValue(json, FcstItems.class);
-        } catch(Exception e) {
+            object = mapper.readValue(json, valueType);
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        return items;
+        return object;
     }
+
+
 }
