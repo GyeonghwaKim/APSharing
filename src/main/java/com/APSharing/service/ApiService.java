@@ -19,6 +19,7 @@ public class ApiService {
             if(object instanceof LunPhItems){
                 getLunPhName(((LunPhItems) object).getLunPhItem());
                 getLunPhDescription(((LunPhItems) object).getLunPhItem());
+                getLunPhEmoji(((LunPhItems) object).getLunPhItem());
             }
 
         } catch (Exception e) {
