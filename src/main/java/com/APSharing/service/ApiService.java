@@ -18,6 +18,7 @@ public class ApiService {
 
             if(object instanceof LunPhItems){
                 getLunPhName(((LunPhItems) object).getLunPhItem());
+                getLunPhDescription(((LunPhItems) object).getLunPhItem());
             }
 
         } catch (Exception e) {
@@ -26,11 +27,19 @@ public class ApiService {
         return object;
     }
 
-    private LunPhItem getLunPhName(LunPhItem item){
-        String name= LunPh.fromDay(item.getLunAge());
+    private void getLunPhName(LunPhItem item){
+        String name= LunPh.fromDayToName(item.getLunAge());
         item.setLunPhName(name);
+    }
 
-        return item;
+    private void getLunPhDescription(LunPhItem item){
+        String description=LunPh.fromDayToDescription(item.getLunAge());
+        item.setDescription(description);
+    }
+
+    private void getLunPhEmoji(LunPhItem item){
+        String emoji=LunPh.fromDayToEmoji(item.getLunAge());
+        item.setEmoji(emoji);
     }
 
 

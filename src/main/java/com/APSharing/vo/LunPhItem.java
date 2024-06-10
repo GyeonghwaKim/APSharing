@@ -25,4 +25,8 @@ public class LunPhItem {
 
     private String lunPhName;
 
+    private String description;
+
+    private String emoji;
+
 }
