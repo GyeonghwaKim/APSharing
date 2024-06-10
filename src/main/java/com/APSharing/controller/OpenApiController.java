@@ -12,7 +12,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -23,7 +25,7 @@ import java.net.URL;
 
 @Slf4j
 @RequiredArgsConstructor
-@Controller
+@ControllerAdvice
 public class OpenApiController {
 
     private final ApiService service;
@@ -44,8 +46,8 @@ public class OpenApiController {
     @Value("${ApodUrl}")
     private String nasaApodUrl;
 
-    @GetMapping("/astroEventInfo")
-    public String callAstroEventInfo(Model model){
+    @ModelAttribute
+    public void callAstroEventInfo(Model model){
 
         String urlStr = astroEventInfoUrl +
                 "solYear=2023&solMonth=05"+
@@ -56,13 +58,12 @@ public class OpenApiController {
 
         AstroEventItems response = service.parseJson(result, AstroEventItems.class);
         model.addAttribute("astroEventInfo",response.getAstroEventItems());
-        return "main";
     }
 
 
 
-    @GetMapping("/apod")
-    public String callApod(Model model){
+    @ModelAttribute
+    public void callApod(Model model){
 
 
         String urlStr = nasaApodUrl +
@@ -73,12 +74,10 @@ public class OpenApiController {
         Apod response=this.service.parseJson(result, Apod.class);
         model.addAttribute("apod",response);
 
-        return "main";
-
     }
 
-    @GetMapping("/lunPhInfoService")
-    public String callLunPhInfoService(Model model){
+    @ModelAttribute
+    public void callLunPhInfoService(Model model){
 
         String urlStr = lunPhInfoServiceUrl +
                 "solYear=2023&solMonth=05&solDay=01" +
@@ -90,13 +89,12 @@ public class OpenApiController {
         LunPhItems response=this.service.parseJson(result,LunPhItems.class);
         model.addAttribute("lunPhInfoService",response.getLunPhItem());
 
-        return "main";
     }
 
 
 
-    @GetMapping("/divisionsInfo24")
-    public String callAnniversaryInfo24(Model model){
+    @ModelAttribute
+    public void callAnniversaryInfo24(Model model){
         String urlStr = divisionsInfo24 +
                 "solYear=2023&solMonth=05"+
                 "&serviceKey=" + openApiKey +
@@ -107,8 +105,6 @@ public class OpenApiController {
         DivisionsItems response=this.service.parseJson(result, DivisionsItems.class);
         model.addAttribute("divisionsInfo24",response.getDivisionsItems());
 
-
-        return "main";
     }
 
 
