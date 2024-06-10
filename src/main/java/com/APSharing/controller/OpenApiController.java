@@ -3,7 +3,8 @@ package com.APSharing.controller;
 import com.APSharing.vo.Apod;
 import com.APSharing.vo.DivisionsItems;
 import com.APSharing.vo.AstroEventItems;
-import com.APSharing.service.ForecastService;
+import com.APSharing.service.ApiService;
+import com.APSharing.vo.LunPhItems;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,7 +26,7 @@ import java.net.URL;
 @Controller
 public class OpenApiController {
 
-    private final ForecastService service;
+    private final ApiService service;
     @Value("${OpenApiKey}")
     private String openApiKey;
     @Value("${AstroEventInfoUrl}")
@@ -34,18 +35,22 @@ public class OpenApiController {
     @Value("${DivisionsInfo24Url}")
     private String divisionsInfo24;
 
+    @Value("${LunPhInfoServiceUrl}")
+    private String lunPhInfoServiceUrl;
+
     @Value("${NasaKey}")
     private String nasaKey;
 
-    @Value("${NasaApodUrl}")
+    @Value("${ApodUrl}")
     private String nasaApodUrl;
 
     @GetMapping("/astroEventInfo")
-    public String callForecastApi(Model model){
+    public String callAstroEventInfo(Model model){
 
         String urlStr = astroEventInfoUrl +
-                "serviceKey=" + openApiKey +
-                "&solYear=2023&solMonth=05&_type=json";
+                "solYear=2023&solMonth=05"+
+                "&serviceKey=" + openApiKey +
+                "&_type=json";
 
         String result = getJson(urlStr);
 
@@ -56,8 +61,8 @@ public class OpenApiController {
 
 
 
-    @GetMapping("/nasaApod")
-    public String callNasaApodApi(Model model){
+    @GetMapping("/apod")
+    public String callApod(Model model){
 
 
         String urlStr = nasaApodUrl +
@@ -66,42 +71,38 @@ public class OpenApiController {
         String result = getJson(urlStr);
 
         Apod response=this.service.parseJson(result, Apod.class);
-        model.addAttribute("nasaApod",response);
+        model.addAttribute("apod",response);
 
         return "main";
 
     }
 
+    @GetMapping("/lunPhInfoService")
+    public String callLunPhInfoService(Model model){
+
+        String urlStr = lunPhInfoServiceUrl +
+                "solYear=2023&solMonth=05&solDay=01" +
+                "&serviceKey=" + openApiKey +
+                "&_type=json";
+
+        String result=getJson(urlStr);
+
+        LunPhItems response=this.service.parseJson(result,LunPhItems.class);
+        model.addAttribute("lunPhInfoService",response.getLunPhItem());
+
+        return "main";
+    }
+
 
 
     @GetMapping("/divisionsInfo24")
-    public String callAnniversaryInfo(Model model){
+    public String callAnniversaryInfo24(Model model){
         String urlStr = divisionsInfo24 +
-                "&solYear=2023&solMonth=05&"+"serviceKey=" + openApiKey
-                +"&_type=json";
+                "solYear=2023&solMonth=05"+
+                "&serviceKey=" + openApiKey +
+                "&_type=json";
 
-
-        HttpURLConnection urlConnection = null;
-        InputStream stream = null;
-        String result = null;
-
-
-
-        try {
-            URL url = new URL(urlStr);
-
-            urlConnection = (HttpURLConnection) url.openConnection();
-            stream = getNetworkConnection(urlConnection);
-            result = readStreamToString(stream);
-
-            if (stream != null) stream.close();
-        } catch(IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (urlConnection != null) {
-                urlConnection.disconnect();
-            }
-        }
+        String result=getJson(urlStr);
 
         DivisionsItems response=this.service.parseJson(result, DivisionsItems.class);
         model.addAttribute("divisionsInfo24",response.getDivisionsItems());
