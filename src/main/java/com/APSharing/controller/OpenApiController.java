@@ -1,20 +1,16 @@
 package com.APSharing.controller;
 
-import com.APSharing.LocalDateParam;
+import com.APSharing.service.ParamFormatService;
 import com.APSharing.vo.Apod;
 import com.APSharing.vo.DivisionsItems;
 import com.APSharing.vo.AstroEventItems;
-import com.APSharing.service.ApiService;
+import com.APSharing.service.ParseService;
 import com.APSharing.vo.LunPhItems;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import java.io.BufferedReader;
@@ -23,15 +19,13 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 @Slf4j
 @RequiredArgsConstructor
 @ControllerAdvice
 public class OpenApiController {
 
-    private final ApiService service;
+
     @Value("${OpenApiKey}")
     private String openApiKey;
     @Value("${AstroEventInfoUrl}")
@@ -49,15 +43,17 @@ public class OpenApiController {
     @Value("${ApodUrl}")
     private String nasaApodUrl;
 
-    private LocalDateParam localDateParam=new LocalDateParam(LocalDate.now());
+    private final ParamFormatService formatService;
+
+    private final ParseService parseService;
 
     @ModelAttribute
     public void callAstroEventInfo(Model model){
 
 
         String urlStr = astroEventInfoUrl +
-                "solYear="+localDateParam.getSolYear()+
-                "&solMonth="+localDateParam.getSolMonth()+
+                "solYear="+this.formatService.getSolYear()+
+                "&solMonth="+this.formatService.getSolMonth()+
                 "&serviceKey=" + openApiKey +
                 "&_type=json";
 
@@ -65,7 +61,7 @@ public class OpenApiController {
 
         String result = getJson(urlStr);
 
-        AstroEventItems response = service.parseJson(result, AstroEventItems.class);
+        AstroEventItems response = parseService.parseJson(result, AstroEventItems.class);
         model.addAttribute("astroEventInfo",response.getAstroEventItems());
     }
 
@@ -80,7 +76,7 @@ public class OpenApiController {
 
         String result = getJson(urlStr);
 
-        Apod response=this.service.parseJson(result, Apod.class);
+        Apod response=this.parseService.parseJson(result, Apod.class);
         model.addAttribute("apod",response);
 
     }
@@ -89,15 +85,15 @@ public class OpenApiController {
     public void callLunPhInfoService(Model model){
 
         String urlStr = lunPhInfoServiceUrl +
-                "solYear="+localDateParam.getSolYear()+"&solMonth="+
-                localDateParam.getSolMonth()+"&solDay="+
-                localDateParam.getSolDay()+
+                "solYear="+this.formatService.getSolYear()+"&solMonth="+
+                this.formatService.getSolMonth()+"&solDay="+
+                this.formatService.getSolDay()+
                 "&serviceKey=" + openApiKey +
                 "&_type=json";
 
         String result=getJson(urlStr);
 
-        LunPhItems response=this.service.parseJson(result,LunPhItems.class);
+        LunPhItems response=this.parseService.parseJson(result,LunPhItems.class);
         model.addAttribute("lunPhInfoService",response.getLunPhItem());
 
     }
@@ -107,14 +103,14 @@ public class OpenApiController {
     @ModelAttribute
     public void callAnniversaryInfo24(Model model){
         String urlStr = divisionsInfo24 +
-                "solYear="+localDateParam.getSolYear()+
-                "&solMonth="+localDateParam.getSolMonth()+
+                "solYear="+this.formatService.getSolYear()+
+                "&solMonth="+this.formatService.getSolMonth()+
                 "&serviceKey=" + openApiKey +
                 "&_type=json";
 
         String result=getJson(urlStr);
 
-        DivisionsItems response=this.service.parseJson(result, DivisionsItems.class);
+        DivisionsItems response=this.parseService.parseJson(result, DivisionsItems.class);
         model.addAttribute("divisionsInfo24",response.getDivisionsItems());
 
     }
