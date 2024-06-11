@@ -8,9 +8,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import java.util.Arrays;
-import java.util.List;
-
 @Data
 @AllArgsConstructor
 public class LunPhItems {
@@ -22,7 +19,27 @@ public class LunPhItems {
     public LunPhItems(@JsonProperty("response") JsonNode node) throws JsonProcessingException {
         ObjectMapper objectMapper=new ObjectMapper();
         JsonNode itemNode= node.findValue("item");
-        this.lunPhItem = objectMapper.treeToValue(itemNode, LunPhItem.class);
+        LunPhItem item=objectMapper.treeToValue(itemNode, LunPhItem.class);
+        setLunPhName(item);
+        setLunPhDescription(item);
+        setLunPhEmoji(item);
+        this.lunPhItem = item;
     }
+
+    private void setLunPhName(LunPhItem item){
+        String name= LunPh.fromDayToName(item.getLunAge());
+        item.setLunPhName(name);
+    }
+
+    private void setLunPhDescription(LunPhItem item){
+        String description=LunPh.fromDayToDescription(item.getLunAge());
+        item.setDescription(description);
+    }
+
+    private void setLunPhEmoji(LunPhItem item){
+        String emoji=LunPh.fromDayToEmoji(item.getLunAge());
+        item.setEmoji(emoji);
+    }
+
 
 }

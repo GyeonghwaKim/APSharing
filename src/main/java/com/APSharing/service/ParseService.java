@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 
 @Service
-public class ApiService {
+public class ParseService {
 
     public <T> T parseJson(String json, Class<T> valueType) {
         T object = null;
@@ -16,11 +16,11 @@ public class ApiService {
             ObjectMapper mapper = new ObjectMapper();
             object = mapper.readValue(json, valueType);
 
-            if(object instanceof LunPhItems){
-                getLunPhName(((LunPhItems) object).getLunPhItem());
-                getLunPhDescription(((LunPhItems) object).getLunPhItem());
-                getLunPhEmoji(((LunPhItems) object).getLunPhItem());
-            }
+//            if(object instanceof LunPhItems){
+//                getLunPhName(((LunPhItems) object).getLunPhItem());
+//                getLunPhDescription(((LunPhItems) object).getLunPhItem());
+//                getLunPhEmoji(((LunPhItems) object).getLunPhItem());
+//            }
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -28,22 +28,20 @@ public class ApiService {
         return object;
     }
 
-    private void getLunPhName(LunPhItem item){
-        String name= LunPh.fromDayToName(item.getLunAge());
-        item.setLunPhName(name);
-    }
-
-    private void getLunPhDescription(LunPhItem item){
-        String description=LunPh.fromDayToDescription(item.getLunAge());
-        item.setDescription(description);
-    }
-
-    private void getLunPhEmoji(LunPhItem item){
-        String emoji=LunPh.fromDayToEmoji(item.getLunAge());
-        item.setEmoji(emoji);
-    }
-
-
+//    private void getLunPhName(LunPhItem item){
+//        String name= LunPh.fromDayToName(item.getLunAge());
+//        item.setLunPhName(name);
+//    }
+//
+//    private void getLunPhDescription(LunPhItem item){
+//        String description=LunPh.fromDayToDescription(item.getLunAge());
+//        item.setDescription(description);
+//    }
+//
+//    private void getLunPhEmoji(LunPhItem item){
+//        String emoji=LunPh.fromDayToEmoji(item.getLunAge());
+//        item.setEmoji(emoji);
+//    }
 
 
 }
