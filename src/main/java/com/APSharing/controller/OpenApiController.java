@@ -1,5 +1,6 @@
 package com.APSharing.controller;
 
+import com.APSharing.LocalDateParam;
 import com.APSharing.vo.Apod;
 import com.APSharing.vo.DivisionsItems;
 import com.APSharing.vo.AstroEventItems;
@@ -22,6 +23,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -46,13 +49,19 @@ public class OpenApiController {
     @Value("${ApodUrl}")
     private String nasaApodUrl;
 
+    private LocalDateParam localDateParam=new LocalDateParam(LocalDate.now());
+
     @ModelAttribute
     public void callAstroEventInfo(Model model){
 
+
         String urlStr = astroEventInfoUrl +
-                "solYear=2023&solMonth=05"+
+                "solYear="+localDateParam.getSolYear()+
+                "&solMonth="+localDateParam.getSolMonth()+
                 "&serviceKey=" + openApiKey +
                 "&_type=json";
+
+
 
         String result = getJson(urlStr);
 
@@ -80,7 +89,9 @@ public class OpenApiController {
     public void callLunPhInfoService(Model model){
 
         String urlStr = lunPhInfoServiceUrl +
-                "solYear=2023&solMonth=05&solDay=01" +
+                "solYear="+localDateParam.getSolYear()+"&solMonth="+
+                localDateParam.getSolMonth()+"&solDay="+
+                localDateParam.getSolDay()+
                 "&serviceKey=" + openApiKey +
                 "&_type=json";
 
@@ -96,7 +107,8 @@ public class OpenApiController {
     @ModelAttribute
     public void callAnniversaryInfo24(Model model){
         String urlStr = divisionsInfo24 +
-                "solYear=2023&solMonth=05"+
+                "solYear="+localDateParam.getSolYear()+
+                "&solMonth="+localDateParam.getSolMonth()+
                 "&serviceKey=" + openApiKey +
                 "&_type=json";
 
