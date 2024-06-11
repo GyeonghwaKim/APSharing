@@ -13,4 +13,6 @@ public class DivisionsItem {
 
     @JsonProperty("locdate")
     private String locdate;
+
+    private String formatLocdate;
 }

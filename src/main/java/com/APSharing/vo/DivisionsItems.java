@@ -7,8 +7,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 @AllArgsConstructor
@@ -21,8 +25,23 @@ public class DivisionsItems {
         ObjectMapper objectMapper=new ObjectMapper();
 
         JsonNode itemNode=node.findValue("item");
-        this.divisionsItems = Arrays
+        List<DivisionsItem> divisionsItemList=Arrays
                 .stream(objectMapper.treeToValue(itemNode, DivisionsItem[].class))
                 .toList();
+
+        divisionsItemList.forEach(this::setFormatLocName);
+
+        this.divisionsItems =divisionsItemList;
+    }
+
+    private void setFormatLocName(DivisionsItem item){
+
+        String locdate=item.getLocdate();
+
+        DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+        LocalDate date = LocalDate.parse(locdate, inputFormatter);
+        DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        item.setFormatLocdate(date.format(outputFormatter));
+
     }
 }
