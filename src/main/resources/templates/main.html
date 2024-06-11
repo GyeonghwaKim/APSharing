@@ -32,18 +32,27 @@
     <div class="row m-4" th:object="${apod}">
         <div class="col-8">
             <img th:src="*{url}"
-                 class="img-fluid object-fit-cover border rounded" alt="...">
+                 class="img-fluid object-fit-cover border" alt="...">
         </div>
         <div class="col-4">
-            <div class="card" style="width: auto;">
-                <div class="card-body">
-                    <h3 class="card-title" th:text="*{title}">APOD title</h3>
-                    <h6 class="card-subtitle mb-2 text-body-secondary" th:text="*{date}">APOD date</h6>
-                    <p class="card-text" th:text="*{explanation}">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <a href="#" class="card-link">Translate link</a>
+            <div class="row">
+                <div class="card" style="width: auto;">
+                    <div class="card-body">
+                        <h3 class="card-title" th:text="*{title}">APOD title</h3>
+                        <h6 class="card-subtitle mb-2 text-body-secondary" th:text="*{date}">APOD date</h6>
+                        <h5 class="card-text fw-lighter" th:text="*{explanation}">Some quick example text to build on the card title and make up the bulk of the card's content.</h5>
+                    </div>
                 </div>
             </div>
-            <h2>Do you want to see pictures from other days? Then click here.</h2>
+
+<!--            <div class="row my-4">-->
+<!--                <h3 class="fw-lighter">50 people likes photo.</h3>-->
+<!--            </div>-->
+
+<!--            <div class="row my-4">-->
+<!--                <button type="button" class="btn btn-outline-dark">Like</button>-->
+<!--            </div>-->
+
         </div>
     </div>
 
@@ -52,20 +61,18 @@
 
     <div class="row">
         <div class="col-1"></div>
-        <div class="col-8">
-            <h2 class="fst-italic" >Astronomical Phenomena In Korea This Month</h2>
+        <div class="col-6 text-center">
+            <h2 class="fst-italic" >Astronomical Phenomena This Month</h2>
             <hr>
         </div>
-        <div class="col-3"></div>
+        <div class="col-5"></div>
     </div>
     <div class="row">
         <div class="col-8">
-            <article class="m-4" th:each="info:${astroEventInfo}">
-                <h3 class="fw-semibold" th:text="${info.locdate}">20150120</h3>
-                <h4 class="" th:text="${info.astroTime}">6:00</h4>
+            <article class="m-4 text-center" th:each="info:${astroEventInfo}">
+                <h4 class="fw-semibold fst-italic"> <span th:text="${info.locdate}">20150120</span> <span class="" th:text="${info.astroTime}">6:00</span></h4>
                 <h4 class="" th:text="${info.astroTitle}">화성 - 해왕성 최대 근접</h4>
                 <h4 class="fw-lighter fst-italic" th:text="${info.astroEvent}">대형광학망원경 개발 및 은하 진화 연구</h4>
-
             </article>
         </div>
         <div class="col-4">
@@ -94,7 +101,7 @@
                             <div class="card m-4" style="width: auto;" th:each="info:${divisionsInfo24}">
                                 <div class="card-body text-center" >
                                     <h5 class="card-title fw-semibold" th:text="${info.dateName}">APOD title</h5>
-                                    <h6 class="card-subtitle mb-2 text-body-secondary" th:text="${info.locdate}">APOD Date</h6>
+                                    <h6 class="card-subtitle mb-2 text-body-secondary" th:text="${info.FormatLocdate}">APOD Date</h6>
                                 </div>
                             </div>
                     </div>
@@ -111,7 +118,11 @@
 </main>
 
 <footer class="container">
-
+<div class="bg-secondary">
+    <h4>Using BootStrap</h4>
+    <h4>Nasa Open Apis</h4>
+    <h4>한국 천문 연구원 API</h4>
+</div>
 </footer>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
