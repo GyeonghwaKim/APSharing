@@ -1,11 +1,8 @@
 package com.APSharing.controller;
 
 import com.APSharing.service.ParamFormatService;
-import com.APSharing.vo.Apod;
-import com.APSharing.vo.DivisionsItems;
-import com.APSharing.vo.AstroEventItems;
+import com.APSharing.vo.*;
 import com.APSharing.service.ParseService;
-import com.APSharing.vo.LunPhItems;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,6 +16,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -47,6 +46,8 @@ public class OpenApiController {
 
     private final ParseService parseService;
 
+    private final GroupService groupService;
+
     @ModelAttribute
     public void callAstroEventInfo(Model model){
 
@@ -61,8 +62,10 @@ public class OpenApiController {
 
         String result = getJson(urlStr);
 
-        AstroEventItems response = parseService.parseJson(result, AstroEventItems.class);
-        model.addAttribute("astroEventInfo",response.getAstroEventItems());
+        AstroEventItems astroEventItems = this.parseService.parseJson(result, AstroEventItems.class);
+        List<Map<String,Object>> response=this.groupService.groupAstroEvents(astroEventItems.getAstroEventItems());
+
+        model.addAttribute("astroEventInfo",response);
     }
 
 

@@ -69,10 +69,20 @@
     </div>
     <div class="row">
         <div class="col-8">
-            <article class="m-4 text-center" th:each="info:${astroEventInfo}">
-                <h4 class="fw-semibold fst-italic"> <span th:text="${info.locdate}">20150120</span> <span class="" th:text="${info.astroTime}">6:00</span></h4>
-                <h4 class="" th:text="${info.astroTitle}">화성 - 해왕성 최대 근접</h4>
-                <h4 class="fw-lighter fst-italic" th:text="${info.astroEvent}">대형광학망원경 개발 및 은하 진화 연구</h4>
+            <article class="m-4 text-center" th:each="eventGroup:${astroEventInfo}">
+                <h4 class="fw-semibold fst-italic" th:text="${eventGroup.locdate}">20150120</h4>
+                <ul style="list-style-type: none;">
+                    <li th:each="event:${eventGroup.events}">
+                        <div th:if="${event.astroTitle != ''}">
+                            <span th:text="${event.astroTime}">01:00</span>
+                            <h4 class="fw-lighter fst-italic" th:text="${event.astroTitle}">대형광학망원경 개발 및 은하진화 연구</h4>
+                            <h4 class="fw-lighter fst-italic" th:text="${event.astroEvent}">거대마젤란망원경(Giant Magellan Telescope)은 한국, 미국, 호주 등이 공동으로 개발하는 세계 최대 광학망원경이다. 주경 전체 지름은 25.4m로 지름 8.4m인 조각 거울 7장으로 구성된다. 주경에 반사된 별빛은 위쪽의 부경 7장에서 다시 반사되어 주경 가운데 거울의 구멍 속으로 들어오고, 구멍 속으로 들어온 별빛은 관측기기를 통해 컴퓨터로 분석된다. 거대마젤란망원경은 허블 우주망원경보다 10배 더 선명한 영상을 제공할 수 있으며, 별과 행성의 형성, 은하의 형성과 진화, 블랙홀, 암흑물질과 암흑에너지, 우주 최초의 별과 은하 등의 연구에 사용된다. 이 망원경은 지구에서 우주를 관측하기에 가장 좋은 지역인 남반구 칠레의 라스 캄파나스 천문대에 2019년 완공될 예정이다</h4>
+                        </div>
+                        <div th:unless="${event.astroTitle !=''}">
+                            <h4 class="fw-lighter fst-italic"> <span th:text="${event.astroTime}">01:00</span> - <span th:text="${event.astroEvent}">지구 근일점</span></h4>
+                        </div>
+                    </li>
+                </ul>
             </article>
         </div>
         <div class="col-4">
