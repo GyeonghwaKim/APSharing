@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Bootstrap demo</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <style>
+        .hideDot{
+            list-style-type: none;
+        }
+    </style>
 </head>
 <body>
 <div class="container">
@@ -14,11 +20,33 @@
         </div>
     </header>
     <hr>
-    <div class="row position-sticky">
-        <div class="col-1 ml-2"><h3>Global</h3></div>
-        <div class="col-1 ml-2"><h3>Korea</h3></div>
+    <div class="row">
+        <div class="col-1 ml-2">
+            <h3 type="button" id="global" data-bs-toggle="modal" data-bs-target="#exampleModal">Global</h3>
+        </div>
+        <div class="col-1 ml-2">
+            <h3  type="button" id="korea" data-bs-toggle="modal" data-bs-target="#exampleModal">Korea</h3>
+        </div>
     </div>
     <hr>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">NOTICE</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    This feature is coming soon
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 
@@ -62,7 +90,7 @@
         <div class="col-7 border border-secondary-subtle my-1">
             <article class="m-2" th:each="eventGroup:${astroEventInfo}">
                 <h4 class="fw-semibold fst-italic" th:text="${eventGroup.locdate}">20150120</h4>
-                <ul style="list-style-type: none;">
+                <ul class="hideDot">
                     <li th:each="event:${eventGroup.events}">
                         <div th:if="${event.astroTitle != ''}">
                             <span th:text="${event.astroTime}">01:00</span>
@@ -112,13 +140,16 @@
         </div>
     </div>
 
+    <hr>
+
+
 </main>
 
 <footer class="bg-secondary-subtle text-secondary py-4">
 <div class="">
-    <div class="api-info text-center">
+    <div class="api-info text-center" >
         <p>본 사이트는 다음의 Open API를 사용합니다:</p>
-        <ul>
+        <ul class="hideDot">
             <li>Nasa API - <a href="https://api.nasa.gov/" target="_blank">API 링크</a></li>
             <li>한국 천문 연구원 Open API - <a href="https://astro.kasi.re.kr/information/pageView/31" target="_blank">API 링크</a></li>
         </ul>
@@ -129,6 +160,7 @@
         </div>
     </div>
 </div>
+
 </footer>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
