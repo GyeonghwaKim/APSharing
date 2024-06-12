@@ -23,10 +23,10 @@ public class LunPhItem {
     @JsonProperty("solDay")
     private String solDay;
 
-    private String lunPhName;
-
     private String description;
 
     private String emoji;
+
+    private LunPh value;
 
 }

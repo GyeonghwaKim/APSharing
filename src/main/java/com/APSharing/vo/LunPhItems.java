@@ -7,7 +7,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Data
 @AllArgsConstructor
 public class LunPhItems {
@@ -20,15 +22,15 @@ public class LunPhItems {
         ObjectMapper objectMapper=new ObjectMapper();
         JsonNode itemNode= node.findValue("item");
         LunPhItem item=objectMapper.treeToValue(itemNode, LunPhItem.class);
-        setLunPhName(item);
+        setLunPhValue(item);
         setLunPhDescription(item);
         setLunPhEmoji(item);
         this.lunPhItem = item;
     }
 
-    private void setLunPhName(LunPhItem item){
-        String name= LunPh.fromDayToName(item.getLunAge());
-        item.setLunPhName(name);
+    private void setLunPhValue(LunPhItem item){
+        LunPh value= LunPh.fromDayToValue(item.getLunAge());
+        item.setValue(value);
     }
 
     private void setLunPhDescription(LunPhItem item){
