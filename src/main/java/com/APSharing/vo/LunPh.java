@@ -1,5 +1,7 @@
 package com.APSharing.vo;
 
+import java.util.Arrays;
+
 public enum LunPh {
     NEW_MOON(0, "달이 태양과 같은 방향에 있어 보이지 않음", "🌑"),
     WAXING_CRESCENT(1, 6, "오른쪽에서부터 달이 보이기 시작함", "🌒"),
@@ -45,30 +47,30 @@ public enum LunPh {
     }
 
     public static LunPh fromDayToValue(int lunAge) {
-        for (LunPh phase : values()) {
-            if (lunAge >= phase.startDay && lunAge <= phase.endDay) {
-                return phase;
-            }
-        }
-        throw new IllegalArgumentException("Invalid lunAge: " + lunAge);
+
+        return Arrays.stream(values())
+                .filter(value -> lunAge >= value.startDay && lunAge <= value.endDay)
+                .findFirst()
+                .orElseThrow(()-> new IllegalArgumentException("Invalid lunAge: " + lunAge));
+
     }
 
     public static String fromDayToDescription(int lunAge) {
-        for (LunPh phase : values()) {
-            if (lunAge >= phase.startDay && lunAge <= phase.endDay) {
-                return phase.getDescription();
-            }
-        }
-        throw new IllegalArgumentException("Invalid lunAge: " + lunAge);
+        return Arrays.stream(values())
+                .filter(value -> lunAge >= value.startDay && lunAge <= value.endDay)
+                .map(LunPh::getDescription)
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Invalid lunAge: " + lunAge));
     }
 
+
     public static String fromDayToEmoji(int lunAge){
-        for (LunPh phase : values()) {
-            if (lunAge >= phase.startDay && lunAge <= phase.endDay) {
-                return phase.getEmoji();
-            }
-        }
-        throw new IllegalArgumentException("Invalid lunAge: " + lunAge);
+        return Arrays.stream(values())
+                .filter(value -> lunAge >= value.startDay && lunAge <= value.endDay)
+                .map(LunPh::getEmoji)
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Invalid lunAge: " + lunAge));
+
     }
 
 
