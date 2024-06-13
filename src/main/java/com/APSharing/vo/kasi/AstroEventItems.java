@@ -1,4 +1,4 @@
-package com.APSharing.vo;
+package com.APSharing.vo.kasi;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -33,27 +33,30 @@ public class AstroEventItems {
 
         astroEventItemList.forEach(this::setFormatLocDate);
 
-
-
         this.astroEventItems =astroEventItemList;
     }
 
     private void setFormatLocDate(AstroEventItem item){
+        DateTimeFormatter inputFormatter,outputFormatter;
+        YearMonth yearMonth;
+        LocalDate yearMonthDay;
 
         String locdate=item.getLocdate().trim();
 
         if(locdate.length()==6){
-            DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyyMM");
-            YearMonth yearMonth = YearMonth.parse(locdate, inputFormatter);
-            DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("yyyy-MM");
+
+            inputFormatter = DateTimeFormatter.ofPattern("yyyyMM");
+            outputFormatter = DateTimeFormatter.ofPattern("yyyy-MM");
+
+            yearMonth = YearMonth.parse(locdate, inputFormatter);
             item.setFormatLocdate(yearMonth.format(outputFormatter));
 
-            log.info(item.getFormatLocdate());
         } else if (locdate.length()==8) {
-            DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyyMMdd");
-            LocalDate date = LocalDate.parse(locdate, inputFormatter);
-            DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            item.setFormatLocdate(date.format(outputFormatter));
+            inputFormatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+            outputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+            yearMonthDay= LocalDate.parse(locdate, inputFormatter);
+            item.setFormatLocdate(yearMonthDay.format(outputFormatter));
         }else{
             throw new IllegalArgumentException("Invalid date format");
         }

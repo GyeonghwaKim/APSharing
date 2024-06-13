@@ -1,4 +1,4 @@
-package com.APSharing.vo;
+package com.APSharing.vo.kasi;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

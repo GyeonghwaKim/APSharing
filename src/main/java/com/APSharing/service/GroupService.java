@@ -1,5 +1,6 @@
-package com.APSharing.vo;
+package com.APSharing.service;
 
+import com.APSharing.vo.kasi.AstroEventItem;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;

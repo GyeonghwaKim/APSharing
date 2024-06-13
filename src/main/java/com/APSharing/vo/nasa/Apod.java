@@ -1,4 +1,4 @@
-package com.APSharing.vo;
+package com.APSharing.vo.nasa;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

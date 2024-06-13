@@ -1,4 +1,4 @@
-package com.APSharing.vo;
+package com.APSharing.vo.kasi;
 
 import java.util.Arrays;
 

@@ -1,4 +1,4 @@
-package com.APSharing.vo;
+package com.APSharing.vo.kasi;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -9,10 +9,8 @@ import lombok.Data;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Data
 @AllArgsConstructor
@@ -29,19 +27,23 @@ public class DivisionsItems {
                 .stream(objectMapper.treeToValue(itemNode, DivisionsItem[].class))
                 .toList();
 
-        divisionsItemList.forEach(this::setFormatLocName);
+        divisionsItemList.forEach(this::setFormatLocDate);
 
         this.divisionsItems =divisionsItemList;
     }
 
-    private void setFormatLocName(DivisionsItem item){
+    private void setFormatLocDate(DivisionsItem item){
 
-        String locdate=item.getLocdate();
+        DateTimeFormatter inputFormatter,outputFormatter;
+        LocalDate yearMonthDay;
 
-        DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyyMMdd");
-        LocalDate date = LocalDate.parse(locdate, inputFormatter);
-        DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        item.setFormatLocdate(date.format(outputFormatter));
+        String locdate=item.getLocdate().trim();
+
+        inputFormatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+        outputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        yearMonthDay = LocalDate.parse(locdate, inputFormatter);
+        item.setFormatLocdate(yearMonthDay.format(outputFormatter));
 
     }
 }
