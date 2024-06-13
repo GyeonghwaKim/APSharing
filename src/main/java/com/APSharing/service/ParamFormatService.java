@@ -1,15 +1,16 @@
 package com.APSharing.service;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-
+@RequiredArgsConstructor
 @Service
 public class ParamFormatService {
 
-    private LocalDate localDate=LocalDate.now();
+    private final LocalDate localDate;
 
     public String getSolYear(){
         return localDate.format(DateTimeFormatter.ofPattern("yyyy"));
