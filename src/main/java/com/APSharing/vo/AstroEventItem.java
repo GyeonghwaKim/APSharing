@@ -23,6 +23,7 @@ public class AstroEventItem {
     @JsonProperty("locdate")
     private String locdate;
 
+    private String formatLocdate;
 
 
 }
