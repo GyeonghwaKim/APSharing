@@ -3,13 +3,17 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap demo</title>
+    <title>APSharing</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
     <style>
         .hideDot{
             list-style-type: none;
         }
+
+        .small-text {
+    font-size: 0.8em; /* 원하는 크기로 설정 */
+  }
     </style>
 </head>
 <body>
@@ -23,43 +27,12 @@
                 </div>
             </div>
             <div class="col-3 d-flex justify-content-center align-items-end fw-semibold">
-                <h4 class="fw-semibold mb-0" th:text="${today}">2024.06.13</h4>
+                <h4 class="fw-semibold mb-0" th:text="${today}">2024-06-13</h4>
             </div>
         </div>
 
     </header>
     <hr>
-
-
-<!--    <div class="row">-->
-<!--        <div class="col-1 ml-2">-->
-<!--            <h3 type="button" id="global" data-bs-toggle="modal" data-bs-target="#exampleModal">Global</h3>-->
-<!--        </div>-->
-<!--        <div class="col-1 ml-2">-->
-<!--            <h3  type="button" id="korea" data-bs-toggle="modal" data-bs-target="#exampleModal">Korea</h3>-->
-<!--        </div>-->
-
-<!--        &lt;!&ndash; Modal &ndash;&gt;-->
-<!--        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">-->
-<!--            <div class="modal-dialog">-->
-<!--                <div class="modal-content">-->
-<!--                    <div class="modal-header">-->
-<!--                        <h1 class="modal-title fs-5" id="exampleModalLabel">NOTICE</h1>-->
-<!--                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
-<!--                    </div>-->
-<!--                    <div class="modal-body">-->
-<!--                        This feature is coming soon-->
-<!--                    </div>-->
-<!--                    <div class="modal-footer">-->
-<!--                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-
-<!--    </div>-->
-<!--    <hr>-->
-
 
 </div>
 
@@ -71,15 +44,26 @@
     </div>
     <div class="row m-4" th:object="${apod}">
         <div class="col-8">
-            <img th:src="*{url}"
-                 class="img-fluid object-fit-cover border" alt="...">
+            <div th:if="${apod.media_type == 'image'}" class="ratio ratio-4x3">
+                <img th:src="*{url}" alt="...">
+            </div>
+
+            <div  th:if="${apod.media_type == 'video'}"
+                    class="ratio ratio-4x3">
+                <iframe src="https://www.youtube.com/embed/sNUNB6CMnE8?rel=0"
+                        frameborder="0"></iframe>
+            </div>
+
         </div>
         <div class="col-4">
             <div class="row">
                 <div class="card" style="width: auto;">
                     <div class="card-body">
                         <h3 class="card-title" th:text="*{title}">APOD title</h3>
-                        <h6 class="card-subtitle mb-2 text-body-secondary" th:text="*{date}">APOD date</h6>
+                        <h6 class="card-subtitle mb-2 text-body-secondary">
+                            <span th:text="*{date}">APOD date</span>
+                            <span class="small-text">(미국 동부 시간대 표준)</span>
+                        </h6>
                         <h5 class="card-text fw-lighter" th:text="*{explanation}">Some quick example text to build on the card title and make up the bulk of the card's content.</h5>
                     </div>
                 </div>

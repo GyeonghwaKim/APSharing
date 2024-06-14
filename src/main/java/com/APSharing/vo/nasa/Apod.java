@@ -21,4 +21,7 @@ public class Apod {
     @JsonProperty("title")
     private String title;
 
+    @JsonProperty("media_type")
+    private String media_type;
+
 }
