@@ -1,0 +1,7 @@
+.hideDot{
+            list-style-type: none;
+        }
+
+        .small-text {
+    font-size: 0.8em; /* 원하는 크기로 설정 */
+  }
