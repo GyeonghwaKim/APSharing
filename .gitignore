@@ -36,3 +36,6 @@ out/
 ### VS Code ###
 .vscode/
 application-SECRET-KEY.properties
+Dockerfile
+application-dev.properties
+application-prod.properties
