@@ -34,7 +34,7 @@ public class KasiApiControllerAdvice {
     private String lunPhInfoServiceUrl;
 
 
-    private final ParamFormatService formatService;
+    private final ParamFormatService paramService;
 
     private final JsonService jsonService;
 
@@ -44,8 +44,8 @@ public class KasiApiControllerAdvice {
     public void callAstroEventInfo(Model model){
 
         String urlStr = astroEventInfoUrl +
-                "solYear="+this.formatService.getSolYear()+
-                "&solMonth="+this.formatService.getSolMonth()+
+                "solYear="+this.paramService.getSolYear()+
+                "&solMonth="+this.paramService.getSolMonth()+
                 "&serviceKey=" + openApiKey +
                 "&_type=json";
 
@@ -64,9 +64,9 @@ public class KasiApiControllerAdvice {
     public void callLunPhInfoService(Model model){
 
         String urlStr = lunPhInfoServiceUrl +
-                "solYear="+this.formatService.getSolYear()+"&solMonth="+
-                this.formatService.getSolMonth()+"&solDay="+
-                this.formatService.getSolDay()+
+                "solYear="+this.paramService.getSolYear()+"&solMonth="+
+                this.paramService.getSolMonth()+"&solDay="+
+                this.paramService.getSolDay()+
                 "&serviceKey=" + openApiKey +
                 "&_type=json";
 
@@ -82,8 +82,8 @@ public class KasiApiControllerAdvice {
     @ModelAttribute
     public void callAnniversaryInfo24(Model model){
         String urlStr = divisionsInfo24 +
-                "solYear="+this.formatService.getSolYear()+
-                "&solMonth="+this.formatService.getSolMonth()+
+                "solYear="+this.paramService.getSolYear()+
+                "&solMonth="+this.paramService.getSolMonth()+
                 "&serviceKey=" + openApiKey +
                 "&_type=json";
 

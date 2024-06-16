@@ -29,14 +29,13 @@ public enum LunPh {
         this.emoji = emoji;
     }
 
-    public double getStartDay() {
+    public int getStartDay() {
         return startDay;
     }
 
-    public double getEndDay() {
+    public int getEndDay() {
         return endDay;
     }
-
 
     public String getDescription() {
         return description;
