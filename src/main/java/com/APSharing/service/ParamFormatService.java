@@ -1,27 +1,33 @@
 package com.APSharing.service;
 
+import com.APSharing.Scheduler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 @RequiredArgsConstructor
 @Service
 public class ParamFormatService {
 
-    private final LocalDate localDate;
+
+    private final Scheduler dateUpdater;
+
 
     public String getSolYear(){
-        return localDate.format(DateTimeFormatter.ofPattern("yyyy"));
+        String year= dateUpdater.getToday().format(DateTimeFormatter.ofPattern("yyyy"));
+
+        return year;
     }
 
     public String getSolMonth(){
-        return localDate.format(DateTimeFormatter.ofPattern("MM"));
+        String month= dateUpdater.getToday().format(DateTimeFormatter.ofPattern("MM"));
+        return month;
     }
 
     public String getSolDay(){
-        return localDate.format(DateTimeFormatter.ofPattern("dd"));
+        String day= dateUpdater.getToday().format(DateTimeFormatter.ofPattern("dd"));
+        return day;
     }
 
 

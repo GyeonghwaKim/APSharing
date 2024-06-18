@@ -9,8 +9,4 @@ import java.time.LocalDate;
 @Configuration
 public class AppConfig {
 
-    @Bean
-    public LocalDate specificDate() {
-        return LocalDate.now(); // 예시 날짜
-    }
 }
