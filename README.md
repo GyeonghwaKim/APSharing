@@ -2,7 +2,7 @@
 천문 현상 정보 공유 사이트
 
 
-https://apsharing.shop/
+http://apsharing.shop/
 
 https://dev-hwa.tistory.com/105
 
