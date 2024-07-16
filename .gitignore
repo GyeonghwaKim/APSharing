@@ -35,5 +35,5 @@ out/
 
 ### VS Code ###
 .vscode/
-application-SECRET-KEY.properties
+application-secret.yml
 Dockerfile
