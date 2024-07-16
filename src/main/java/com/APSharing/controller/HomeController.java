@@ -46,7 +46,8 @@ public class HomeController {
         responseData.put("serverName",serverName);
         responseData.put("serverPort",serverPort);
         responseData.put("serverAddress",serverAddress);
-        responseData.put("env",env);
+        responseData.put("확인용: env",env);
+
 
         return ResponseEntity.ok(responseData);
     }
