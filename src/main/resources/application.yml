@@ -1,0 +1,66 @@
+spring:
+  profiles:
+    active: local
+    group:
+      local: local, common, secret
+      blue: blue, common, secret
+      green: green, common, secret
+
+server:
+  env: blue
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: local
+
+server:
+  port: 8080
+  serverAddress: localhost
+
+serverName: local_server
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: blue
+
+server:
+  port: 8080
+  serverAddress: 13.124.191.141
+
+serverName: blue_server
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: green
+
+server:
+  port: 8081
+  serverAddress: 13.124.191.141
+
+serverName: green_server
+
+---
+spring:
+  config:
+    activate:
+      on-profile: common
+  messages:
+    basename: messages,config.i18n.messages
+    encoding: UTF-8
+
+#OpenAPI URL
+#Kasi
+AstroEventInfoUrl: http://apis.data.go.kr/B090041/openapi/service/AstroEventInfoService/getAstroEventInfo?
+DivisionsInfo24Url: http://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/get24DivisionsInfo?
+LunPhInfoServiceUrl: http://apis.data.go.kr/B090041/openapi/service/LunPhInfoService/getLunPhInfo?
+#nasa
+ApodUrl: https://api.nasa.gov/planetary/apod?
