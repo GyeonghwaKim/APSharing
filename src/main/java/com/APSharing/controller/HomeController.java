@@ -47,7 +47,7 @@ public class HomeController {
         responseData.put("serverPort",serverPort);
         responseData.put("serverAddress",serverAddress);
         responseData.put("env",env);
-        responseData.put("블루","blue");
+
 
 
         return ResponseEntity.ok(responseData);
