@@ -30,6 +30,46 @@
 
 <main class="container">
 
+
+    <div class="row">
+        <div class="col-2"></div>
+        <div class="col-10"><h2 class="fst-italic fw-semibold">Astronomy Picture of the Day</h2></div>
+    </div>
+    <div class="row m-4" th:object="${apod}">
+        <div class="col-8">
+            <div th:if="${apod.media_type == 'image'}" class="ratio ratio-4x3">
+                <img th:src="*{url}" alt="...">
+            </div>
+
+            <div  th:if="${apod.media_type == 'video'}"
+                  class="ratio ratio-4x3">
+                <iframe src="https://www.youtube.com/embed/sNUNB6CMnE8?rel=0"
+                        frameborder="0"></iframe>
+            </div>
+
+        </div>
+        <div class="col-4">
+            <div class="row">
+                <div class="card" style="width: auto;">
+                    <div class="card-body">
+                        <h3 class="card-title" th:text="*{title}">APOD title</h3>
+                        <h6 class="card-subtitle mb-2 text-body-secondary">
+                            <span th:text="*{date}">APOD date</span>
+                            <span class="small-text">(미국 동부 시간대 표준)</span>
+                        </h6>
+                        <h5 class="card-text fw-lighter" th:text="*{explanation}">Some quick example text to build on the card title and make up the bulk of the card's content.</h5>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+
+    <hr>
+
+
     <div class="row">
         <div class="col-1"></div>
         <div class="col-7">
@@ -94,43 +134,7 @@
 
     <hr>
 
-    <div class="row">
-        <div class="col-2"></div>
-        <div class="col-10"><h2 class="fst-italic fw-semibold">Astronomy Picture of the Day</h2></div>
-    </div>
-    <div class="row m-4" th:object="${apod}">
-        <div class="col-8">
-            <div th:if="${apod.media_type == 'image'}" class="ratio ratio-4x3">
-                <img th:src="*{url}" alt="...">
-            </div>
 
-            <div  th:if="${apod.media_type == 'video'}"
-                    class="ratio ratio-4x3">
-                <iframe src="https://www.youtube.com/embed/sNUNB6CMnE8?rel=0"
-                        frameborder="0"></iframe>
-            </div>
-
-        </div>
-        <div class="col-4">
-            <div class="row">
-                <div class="card" style="width: auto;">
-                    <div class="card-body">
-                        <h3 class="card-title" th:text="*{title}">APOD title</h3>
-                        <h6 class="card-subtitle mb-2 text-body-secondary">
-                            <span th:text="*{date}">APOD date</span>
-                            <span class="small-text">(미국 동부 시간대 표준)</span>
-                        </h6>
-                        <h5 class="card-text fw-lighter" th:text="*{explanation}">Some quick example text to build on the card title and make up the bulk of the card's content.</h5>
-                    </div>
-                </div>
-            </div>
-
-
-
-        </div>
-    </div>
-
-    <hr>
 
 
 
