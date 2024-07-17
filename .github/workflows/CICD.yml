@@ -54,7 +54,7 @@ jobs:
       - name: Set target IP
         run: |
           STATUS=$(curl -L -o /dev/null -w "%{http_code}" "http://${{ secrets.APSHARING_SERVER_IP }}/env")
-          echo $STATUS
+          echo "현재 status "$STATUS
           if [ $STATUS = 200 ]; then
             CURRENT_UPSTREAM=$(curl -L -s "http://${{ secrets.APSHARING_SERVER_IP }}/env")
           else
