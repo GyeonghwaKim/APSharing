@@ -53,10 +53,10 @@ jobs:
     steps:
       - name: Set target IP
         run: |
-          STATUS=$(curl -L -o /dev/null -w "%{http_code}" "http://${{ secrets.APSHARING_SERVER_IP }}/env")
+          STATUS=$(curl -L -o /dev/null -w "%{http_code}" "http://${{ secrets.APSHARING_DOMAIN }}/env")
           echo "현재 status "$STATUS
           if [ $STATUS = 200 ]; then
-            CURRENT_UPSTREAM=$(curl -L -s "http://${{ secrets.APSHARING_SERVER_IP }}/env")
+            CURRENT_UPSTREAM=$(curl -L -s "http://${{ secrets.APSHARING_DOMAIN }}/env")
           else
             CURRENT_UPSTREAM=green
           fi
