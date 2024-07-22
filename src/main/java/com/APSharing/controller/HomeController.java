@@ -4,6 +4,7 @@ package com.APSharing.controller;
 import com.APSharing.DateScheduler;
 import com.APSharing.service.DateService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -47,8 +48,6 @@ public class HomeController {
         responseData.put("serverPort",serverPort);
         responseData.put("serverAddress",serverAddress);
         responseData.put("env",env);
-
-
 
         return ResponseEntity.ok(responseData);
     }
