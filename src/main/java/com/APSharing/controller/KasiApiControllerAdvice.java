@@ -1,7 +1,6 @@
 package com.APSharing.controller;
 
 import com.APSharing.service.GroupService;
-import com.APSharing.service.DateService;
 import com.APSharing.service.JsonService;
 import com.APSharing.service.api.ApiService;
 import com.APSharing.vo.kasi.AstroEventItems;
@@ -21,21 +20,6 @@ import java.util.Map;
 @RequiredArgsConstructor
 @ControllerAdvice
 public class KasiApiControllerAdvice {
-
-
-    @Value("${KasiKey}")
-    private String openApiKey;
-    @Value("${AstroEventInfoUrl}")
-    private String astroEventInfoUrl;
-
-    @Value("${DivisionsInfo24Url}")
-    private String divisionsInfo24;
-
-    @Value("${LunPhInfoServiceUrl}")
-    private String lunPhInfoServiceUrl;
-
-
-    private final DateService paramService;
 
     private final JsonService jsonService;
 

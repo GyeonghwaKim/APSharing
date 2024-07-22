@@ -1,9 +1,9 @@
 package com.APSharing.service.api;
 
 
+import com.APSharing.service.DateService;
 import com.APSharing.service.JsonService;
-import com.APSharing.service.ParamFormatService;
-import com.APSharing.service.api.ApiService;
+
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,7 +31,7 @@ public class KasiApiService implements ApiService {
 
     private Map<String,String> apiResponse;
 
-    private final ParamFormatService paramService;
+    private final DateService dateService;
 
     private final JsonService jsonService;
 
@@ -52,9 +52,9 @@ public class KasiApiService implements ApiService {
 
     private void fetchApiResponse(){
 
-        String year=this.paramService.getSolYear();
-        String month= this.paramService.getSolMonth();
-        String day=this.paramService.getSolDay();
+        String year=this.dateService.getSolYear();
+        String month= this.dateService.getSolMonth();
+        String day=this.dateService.getSolDay();
 
         fetchAstroEventInfo(year, month);
         fetchLunPhInfoService(year, month, day);
