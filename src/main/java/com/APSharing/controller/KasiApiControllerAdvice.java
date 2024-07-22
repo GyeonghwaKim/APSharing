@@ -1,14 +1,14 @@
 package com.APSharing.controller;
 
 import com.APSharing.service.GroupService;
-import com.APSharing.service.ParamFormatService;
 import com.APSharing.service.JsonService;
+import com.APSharing.service.api.ApiService;
 import com.APSharing.vo.kasi.AstroEventItems;
 import com.APSharing.vo.kasi.DivisionsItems;
 import com.APSharing.vo.kasi.LunPhItems;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -21,37 +21,16 @@ import java.util.Map;
 @ControllerAdvice
 public class KasiApiControllerAdvice {
 
-
-    @Value("${KasiKey}")
-    private String openApiKey;
-    @Value("${AstroEventInfoUrl}")
-    private String astroEventInfoUrl;
-
-    @Value("${DivisionsInfo24Url}")
-    private String divisionsInfo24;
-
-    @Value("${LunPhInfoServiceUrl}")
-    private String lunPhInfoServiceUrl;
-
-
-    private final ParamFormatService paramService;
-
     private final JsonService jsonService;
 
     private final GroupService groupService;
 
+    private final @Qualifier("kasiApiService") ApiService kasiApiService;
     @ModelAttribute
     public void callAstroEventInfo(Model model){
 
-        String urlStr = astroEventInfoUrl +
-                "solYear="+this.paramService.getSolYear()+
-                "&solMonth="+this.paramService.getSolMonth()+
-                "&serviceKey=" + openApiKey +
-                "&_type=json";
 
-
-
-        String result = this.jsonService.getJson(urlStr);
+        String result=this.kasiApiService.getApiResponse().get("astroEventInfo");
 
         AstroEventItems astroEventItems = this.jsonService.parseJson(result, AstroEventItems.class);
         List<Map<String,Object>> response=this.groupService.groupAstroEvents(astroEventItems.getAstroEventItems());
@@ -63,14 +42,7 @@ public class KasiApiControllerAdvice {
     @ModelAttribute
     public void callLunPhInfoService(Model model){
 
-        String urlStr = lunPhInfoServiceUrl +
-                "solYear="+this.paramService.getSolYear()+"&solMonth="+
-                this.paramService.getSolMonth()+"&solDay="+
-                this.paramService.getSolDay()+
-                "&serviceKey=" + openApiKey +
-                "&_type=json";
-
-        String result=this.jsonService.getJson(urlStr);
+        String result=this.kasiApiService.getApiResponse().get("lunPhInfoService");
 
         LunPhItems response=this.jsonService.parseJson(result,LunPhItems.class);
         model.addAttribute("lunPhInfoService",response.getLunPhItem());
@@ -81,13 +53,8 @@ public class KasiApiControllerAdvice {
 
     @ModelAttribute
     public void callAnniversaryInfo24(Model model){
-        String urlStr = divisionsInfo24 +
-                "solYear="+this.paramService.getSolYear()+
-                "&solMonth="+this.paramService.getSolMonth()+
-                "&serviceKey=" + openApiKey +
-                "&_type=json";
 
-        String result=this.jsonService.getJson(urlStr);
+        String result=this.kasiApiService.getApiResponse().get("divisionsInfo24");
 
         DivisionsItems response=this.jsonService.parseJson(result, DivisionsItems.class);
         model.addAttribute("divisionsInfo24",response.getDivisionsItems());

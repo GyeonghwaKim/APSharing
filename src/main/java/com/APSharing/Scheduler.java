@@ -2,6 +2,7 @@ package com.APSharing;
 
 
 import jakarta.annotation.PostConstruct;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -10,6 +11,7 @@ import java.time.LocalDate;
 
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class Scheduler {
 
     private LocalDate today;
@@ -26,6 +28,10 @@ public class Scheduler {
         log.info("ScheduledUpdate Today = {}", today);
 
     }
+
+
+
+
     private void updateToday() {
         today = LocalDate.now();
     }
@@ -33,4 +39,6 @@ public class Scheduler {
     public LocalDate getToday() {
         return today;
     }
+
+
 }

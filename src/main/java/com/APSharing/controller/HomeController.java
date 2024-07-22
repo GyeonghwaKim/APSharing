@@ -25,7 +25,6 @@ public class HomeController {
     {
 
         LocalDate today = date.getToday();
-
         model.addAttribute("today",today);
         return "main";
     }
@@ -47,8 +46,6 @@ public class HomeController {
         responseData.put("serverPort",serverPort);
         responseData.put("serverAddress",serverAddress);
         responseData.put("env",env);
-
-
 
         return ResponseEntity.ok(responseData);
     }
