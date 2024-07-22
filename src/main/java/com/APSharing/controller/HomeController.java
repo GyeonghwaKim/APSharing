@@ -1,9 +1,9 @@
 package com.APSharing.controller;
 
 
-import com.APSharing.Scheduler;
+import com.APSharing.DateScheduler;
+import com.APSharing.service.DateService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -18,13 +18,13 @@ import java.util.TreeMap;
 @Controller
 public class HomeController {
 
-    private final Scheduler date;
+    private final DateService dateService;
 
     @GetMapping("/")
     public String home(Model model)
     {
 
-        LocalDate today = date.getToday();
+        LocalDate today = dateService.getToday();
 
         model.addAttribute("today",today);
         return "main";

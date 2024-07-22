@@ -1,7 +1,7 @@
 package com.APSharing.controller;
 
 import com.APSharing.service.GroupService;
-import com.APSharing.service.ParamFormatService;
+import com.APSharing.service.DateService;
 import com.APSharing.service.JsonService;
 import com.APSharing.vo.kasi.AstroEventItems;
 import com.APSharing.vo.kasi.DivisionsItems;
@@ -34,7 +34,7 @@ public class KasiApiControllerAdvice {
     private String lunPhInfoServiceUrl;
 
 
-    private final ParamFormatService paramService;
+    private final DateService paramService;
 
     private final JsonService jsonService;
 
