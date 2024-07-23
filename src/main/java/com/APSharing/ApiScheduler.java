@@ -32,7 +32,7 @@ public class ApiScheduler {
         log.info("kasiApiResponse = {}",this.kasiApiService.getApiResponse());
     }
 
-    @Scheduled(cron="0 0 13 * * ?")
+    @Scheduled(cron="0 1 13 * * ?")
     public void refreshNasaApiResponse(){
         this.nasaApiService.refreshApiResponse();
         log.info("nasaApiResponse = {}",this.nasaApiService.getApiResponse());
